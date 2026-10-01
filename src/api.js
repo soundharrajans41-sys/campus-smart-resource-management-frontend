@@ -1,6 +1,9 @@
 import axios from "axios";
 
-const api = axios.create({ baseURL: "http://localhost:8080/api" });
+const rawBaseUrl = import.meta.env.VITE_API_URL || "http://localhost:8080";
+const baseURL = rawBaseUrl.endsWith("/api") ? rawBaseUrl : `${rawBaseUrl.replace(/\/+$/, "")}/api`;
+
+const api = axios.create({ baseURL });
 
 // attach JWT to every request
 api.interceptors.request.use((config) => {
